@@ -1,5 +1,7 @@
-package com.au.mit.shell.common.command;
+package com.au.mit.shell.common.command.embedded;
 
+import com.au.mit.shell.common.command.Argument;
+import com.au.mit.shell.common.command.Command;
 import com.au.mit.shell.common.exceptions.CommandException;
 
 import java.io.*;
@@ -24,28 +26,30 @@ public class Manual extends Command {
                 "man [COMMAND]");
         commandManual.put("pwd", "pwd - prints current working directory to standard output\n" +
                 "pwd");
+        commandManual.put("echo", "echo - prints arguemtn to standard output\n" +
+                "echo");
         commandManual.put("exit", "exit - exit from the shell\n" +
                 "exit");
     }
 
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
-        if (args.size() > 0) {
-            DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-            try {
+        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+        try {
+            if (args.size() > 0) {
                 dataOutputStream.writeChars(commandManual.getOrDefault(args.get(0).getValue(), "Command not found"));
                 dataOutputStream.flush();
-            } catch (IOException e) {
-                throw new CommandException("", e);
-            } finally {
-                try {
-                    dataOutputStream.close();
-                } catch (IOException e) {
-                    throw new CommandException("", e);
-                }
+            } else {
+                dataOutputStream.writeChars("Not enough arguments");
             }
-        } else {
-            System.out.println("Not enough arguments");
+        } catch (IOException e) {
+            throw new CommandException(e.getMessage(), e);
+        } finally {
+            try {
+                dataOutputStream.close();
+            } catch (IOException e) {
+                throw new CommandException(e.getMessage(), e);
+            }
         }
     }
 }

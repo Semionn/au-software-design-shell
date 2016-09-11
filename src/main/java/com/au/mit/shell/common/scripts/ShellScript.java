@@ -1,5 +1,7 @@
 package com.au.mit.shell.common.scripts;
 
+import com.au.mit.shell.common.command.tasks.TaskDescription;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,22 +9,22 @@ import java.util.List;
  * Created by semionn on 10.09.16.
  */
 public class ShellScript {
-    private List<TaskDescription> tasks = new ArrayList<>();
+    private List<TaskDescription> pipedTasks = new ArrayList<>();
 
     public ShellScript() {}
 
     public void addTask(TaskDescription task) {
-        if (tasks == null) {
-            tasks = new ArrayList<>();
+        if (pipedTasks == null) {
+            pipedTasks = new ArrayList<>();
         }
-        tasks.add(task);
+        pipedTasks.add(task);
     }
 
-    public List<TaskDescription> getTasks() {
-        return tasks;
+    public List<TaskDescription> getPipedTasks() {
+        return pipedTasks;
     }
 
-    public void setTasks(List<TaskDescription> tasks) {
-        this.tasks = tasks;
+    public void setPipedTasks(List<TaskDescription> pipedTasks) {
+        this.pipedTasks = pipedTasks;
     }
 }

@@ -1,11 +1,11 @@
 package com.au.mit.shell.common.scripts.runner;
 
 import com.au.mit.shell.common.command.CommandResult;
-import com.au.mit.shell.common.command.Task;
-import com.au.mit.shell.common.command.TaskCreator;
+import com.au.mit.shell.common.command.tasks.Task;
+import com.au.mit.shell.common.command.tasks.AutoTaskFactory;
 import com.au.mit.shell.common.command.runner.CommandRunner;
 import com.au.mit.shell.common.scripts.ShellScript;
-import com.au.mit.shell.common.scripts.TaskDescription;
+import com.au.mit.shell.common.command.tasks.TaskDescription;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,19 +18,19 @@ import java.io.PipedInputStream;
 public class ShellScriptSimpleRunner implements ShellScriptRunner {
 
     @Override
-    public void run(ShellScript script, TaskCreator taskCreator, CommandRunner commandRunner) {
+    public void run(ShellScript script, AutoTaskFactory autoTaskFactory, CommandRunner commandRunner) {
         try {
             commandRunner.start();
             CommandResult lastResult = null;
-            for (TaskDescription taskDescription : script.getTasks()) {
-                Task task = taskCreator.create(taskDescription.getCommandName(), taskDescription.getArgs());
+            for (TaskDescription taskDescription : script.getPipedTasks()) {
+                Task task = autoTaskFactory.tryCreate(taskDescription.getCommandName(), taskDescription.getArgs());
                 lastResult = task.run(lastResult);
             }
             if (lastResult != null) {
                 printResult(lastResult);
             }
         } catch (Throwable e) {
-            e.printStackTrace();
+            System.out.println(String.format("%s: %s", e.getClass().toString(), e.getMessage()));
         } finally {
             commandRunner.stop();
         }

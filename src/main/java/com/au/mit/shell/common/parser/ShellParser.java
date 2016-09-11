@@ -2,7 +2,7 @@ package com.au.mit.shell.common.parser;
 
 import com.au.mit.shell.common.command.Argument;
 import com.au.mit.shell.common.scripts.ShellScript;
-import com.au.mit.shell.common.scripts.TaskDescription;
+import com.au.mit.shell.common.command.tasks.TaskDescription;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,32 +18,34 @@ public class ShellParser {
         List<Lexem> lexems = getLexems(string);
 
         ShellScript script = new ShellScript();
-        String taskStr = "";
+        List<String> taskStr = new ArrayList<>();
         for (Lexem lexem : lexems) {
             if (!lexem.isString) {
                 if (lexem.value.equals("|")) {
                     script.addTask(parseTask(taskStr));
-                    taskStr = "";
+                    taskStr = new ArrayList<>();
+                } else if (taskStr.contains("=")) {
+                    script.addTask(parseTask(taskStr));
+                    taskStr = new ArrayList<>();
                 } else {
-                    taskStr += lexem.value;
+                    taskStr.add(lexem.value);
                 }
             } else {
-                taskStr += lexem.value;
+                taskStr.add(lexem.value);
             }
         }
-        if (!taskStr.equals("")) {
+        if (!taskStr.isEmpty()) {
             script.addTask(parseTask(taskStr));
         }
         return script;
     }
 
-    private TaskDescription parseTask(String taskStr) {
-        String[] tokens = taskStr.trim().split(" ");
+    private TaskDescription parseTask(List<String> tokens) {
         List<Argument> arguments = new ArrayList<>();
-        for (int i = 1; i < tokens.length; i++) {
-            arguments.add(new Argument("", tokens[i]));
+        for (int i = 1; i < tokens.size(); i++) {
+            arguments.add(new Argument("", tokens.get(i).trim()));
         }
-        return new TaskDescription(tokens[0], arguments);
+        return new TaskDescription(tokens.get(0).trim(), arguments);
     }
 
     private List<Lexem> getLexems(String string) {
@@ -77,6 +79,17 @@ public class ShellParser {
                         }
                         lexems.add(i + k, new Lexem(pipedLexems[j], false));
                         k++;
+                    }
+                }
+            }
+        }
+        for (int i = lexems.size() - 1; i >= 0; i--) {
+            if (!lexems.get(i).isString) {
+                String[] spacedLexems = lexems.get(i).value.split(" ");
+                if (spacedLexems.length > 1) {
+                    lexems.remove(i);
+                    for (int j = 0; j < spacedLexems.length; j++) {
+                        lexems.add(i + j, new Lexem(spacedLexems[j], false));
                     }
                 }
             }

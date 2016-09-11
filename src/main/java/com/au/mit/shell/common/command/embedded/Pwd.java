@@ -1,5 +1,7 @@
-package com.au.mit.shell.common.command;
+package com.au.mit.shell.common.command.embedded;
 
+import com.au.mit.shell.common.command.Argument;
+import com.au.mit.shell.common.command.Command;
 import com.au.mit.shell.common.exceptions.CommandException;
 
 import java.io.*;
@@ -20,12 +22,12 @@ public class Pwd extends Command {
             dataOutputStream.writeChars(System.getProperty("user.dir"));
             dataOutputStream.flush();
         } catch (IOException e) {
-            throw new CommandException("", e);
+            throw new CommandException(e.getMessage(), e);
         } finally {
             try {
                 dataOutputStream.close();
             } catch (IOException e) {
-                throw new CommandException("", e);
+                throw new CommandException(e.getMessage(), e);
             }
         }
     }

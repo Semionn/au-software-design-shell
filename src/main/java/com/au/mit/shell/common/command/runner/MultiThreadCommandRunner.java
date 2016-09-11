@@ -47,7 +47,12 @@ public class MultiThreadCommandRunner implements CommandRunner {
             try {
                 command.run(inputStream, outputStream, args);
             } catch (Throwable e) {
-                e.printStackTrace();
+                System.out.println(String.format("%s: %s", e.getClass().toString(), e.getMessage()));
+                try {
+                    resultInputStream.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         return result;

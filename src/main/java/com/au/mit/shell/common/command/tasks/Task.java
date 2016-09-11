@@ -1,5 +1,8 @@
-package com.au.mit.shell.common.command;
+package com.au.mit.shell.common.command.tasks;
 
+import com.au.mit.shell.common.command.Argument;
+import com.au.mit.shell.common.command.Command;
+import com.au.mit.shell.common.command.CommandResult;
 import com.au.mit.shell.common.command.runner.CommandRunner;
 
 import java.io.PipedInputStream;

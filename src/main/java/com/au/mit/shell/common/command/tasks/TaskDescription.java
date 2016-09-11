@@ -1,4 +1,4 @@
-package com.au.mit.shell.common.scripts;
+package com.au.mit.shell.common.command.tasks;
 
 import com.au.mit.shell.common.command.Argument;
 
@@ -22,5 +22,13 @@ public class TaskDescription {
 
     public List<Argument> getArgs() {
         return args;
+    }
+
+    public void setCommandName(String commandName) {
+        this.commandName = commandName;
+    }
+
+    public void setArgs(List<Argument> args) {
+        this.args = args;
     }
 }
