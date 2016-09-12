@@ -85,7 +85,7 @@ public class ShellParser {
         }
         for (int i = lexems.size() - 1; i >= 0; i--) {
             if (!lexems.get(i).isString) {
-                String[] spacedLexems = lexems.get(i).value.split(" ");
+                String[] spacedLexems = lexems.get(i).value.trim().split(" ");
                 if (spacedLexems.length > 1) {
                     lexems.remove(i);
                     for (int j = 0; j < spacedLexems.length; j++) {

@@ -28,6 +28,12 @@ public class ExternalProcessCmd extends Command {
             PipelineUtils.ConnectStreams(process.getInputStream(), outputStream);
         } catch (IOException e) {
             throw new CommandException(e.getMessage(), e);
+        } finally {
+            try {
+                outputStream.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }
