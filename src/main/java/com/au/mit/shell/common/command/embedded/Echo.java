@@ -25,6 +25,7 @@ public class Echo extends Command {
             } else if (inputStream != null) {
                 is = inputStream;
             } else {
+                outputStream.close();
                 return;
             }
             PipelineUtils.ConnectStreams(is, outputStream);

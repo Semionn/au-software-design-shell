@@ -6,6 +6,7 @@ import com.au.mit.shell.common.command.tasks.TaskDescription;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by semionn on 10.09.16.
@@ -54,13 +55,13 @@ public class ShellParser {
 
     private List<Lexem> getLexems(String string) {
         String[] quotedStrings = string.split("'");
-        assert (quotedStrings.length % 2 == 1) : "Quotation(\') is opened, but don't closed";
+//        assert (quotedStrings.length % 2 == 1) : "Quotation(\') is opened, but don't closed";
         List<Lexem> lexems = new ArrayList<>();
         for (int i = 0; i < quotedStrings.length; i++) {
             boolean isQuoted = i % 2 != 0;
             if (!isQuoted) {
                 String[] doubleQuotedStrings = quotedStrings[i].split("\"");
-                assert (doubleQuotedStrings.length % 2 == 1) : "Quotation(\") is opened, but don't closed";
+//                assert (doubleQuotedStrings.length % 2 == 1) : "Quotation(\") is opened, but don't closed";
                 for (int j = 0; j < doubleQuotedStrings.length; j++) {
                     boolean isDoubleQuoted = j % 2 != 0;
                     String s = doubleQuotedStrings[j];
@@ -112,7 +113,9 @@ public class ShellParser {
                 spacedLexem = new Lexem();
             }
         }
-        lexemsResult.add(spacedLexem);
+        if (!spacedLexem.isEmpty()) {
+            lexemsResult.add(spacedLexem);
+        }
         return lexemsResult;
     }
 
@@ -148,6 +151,10 @@ public class ShellParser {
 
         String getValue() {
             return values.get(0);
+        }
+
+        boolean isEmpty() {
+            return values.size() == 0;
         }
 
         List<String> getValues() {
