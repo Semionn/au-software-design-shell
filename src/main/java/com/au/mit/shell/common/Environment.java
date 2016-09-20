@@ -21,10 +21,6 @@ public class Environment {
         variables.put(name, value);
     }
 
-    public String getVariable(String name) {
-        return variables.getOrDefault(name, "");
-    }
-
     public void replaceVariables(ShellScript shellScript) {
         List<TaskDescription> pipedTasks = shellScript.getPipedTasks();
         for (TaskDescription taskDescr : pipedTasks) {

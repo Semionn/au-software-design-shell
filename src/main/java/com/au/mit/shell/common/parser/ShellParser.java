@@ -21,17 +21,21 @@ public class ShellParser {
         List<String> taskStr = new ArrayList<>();
         for (Lexem lexem : lexems) {
             if (!lexem.isString) {
-                if (lexem.value.equals("|")) {
+                if (lexem.getValue().equals("|")) {
                     script.addTask(parseTask(taskStr));
                     taskStr = new ArrayList<>();
                 } else if (taskStr.contains("=")) {
                     script.addTask(parseTask(taskStr));
                     taskStr = new ArrayList<>();
                 } else {
-                    taskStr.add(lexem.value);
+                    for (String s : lexem.getValues()) {
+                        taskStr.add(s);
+                    }
                 }
             } else {
-                taskStr.add(lexem.value);
+                for (String s : lexem.getValues()) {
+                    taskStr.add(s);
+                }
             }
         }
         if (!taskStr.isEmpty()) {
@@ -68,7 +72,7 @@ public class ShellParser {
         }
         for (int i = lexems.size() - 1; i >= 0; i--) {
             if (!lexems.get(i).isString) {
-                String[] pipedLexems = lexems.get(i).value.split("\\|");
+                String[] pipedLexems = lexems.get(i).getValue().split("\\|");
                 if (pipedLexems.length > 1) {
                     lexems.remove(i);
                     int k = 0;
@@ -83,27 +87,82 @@ public class ShellParser {
                 }
             }
         }
-        for (int i = lexems.size() - 1; i >= 0; i--) {
+        List<Lexem> lexemsResult = new ArrayList<>();
+        Lexem spacedLexem = new Lexem();
+        for (int i = 0; i < lexems.size(); i++) {
+            String value = lexems.get(i).getValue();
+            if (value.startsWith(" ")) {
+                lexemsResult.add(spacedLexem);
+                spacedLexem = new Lexem();
+            }
             if (!lexems.get(i).isString) {
-                String[] spacedLexems = lexems.get(i).value.trim().split(" ");
-                if (spacedLexems.length > 1) {
-                    lexems.remove(i);
-                    for (int j = 0; j < spacedLexems.length; j++) {
-                        lexems.add(i + j, new Lexem(spacedLexems[j], false));
+                String[] spacedLexems = value.trim().split(" ");
+                for (int j = 0; j < spacedLexems.length; j++) {
+                    if (j > 0) {
+                        lexemsResult.add(spacedLexem);
+                        spacedLexem = new Lexem();
                     }
+                    spacedLexem.addSubLexem(extractAssignment(spacedLexems[j]));
                 }
+            } else {
+                spacedLexem.addSubLexem(extractAssignment(value));
+            }
+            if (value.endsWith(" ")) {
+                lexemsResult.add(spacedLexem);
+                spacedLexem = new Lexem();
             }
         }
-        return lexems;
+        lexemsResult.add(spacedLexem);
+        return lexemsResult;
+    }
+
+    private Lexem extractAssignment(String str) {
+        Lexem lexem = new Lexem();
+        String[] tokens = str.split("=");
+        if (tokens[0].length() < str.length()) {
+            lexem.addSubLexem("=");
+            lexem.addSubLexem(tokens[0]);
+            if (tokens[0].length() + 1 < str.length()) {
+                lexem.addSubLexem(str.substring(tokens[0].length() + 1));
+            }
+        } else {
+            lexem.addSubLexem(tokens[0]);
+        }
+        return lexem;
     }
 
     private static class Lexem {
-        String value;
+        List<String> values;
         boolean isString;
 
         Lexem(String value, boolean isString) {
-            this.value = value;
+            this.values = new ArrayList<>();
+            this.values.add(value);
             this.isString = isString;
         }
+
+        Lexem() {
+            this.values = new ArrayList<>();
+            this.isString = false;
+        }
+
+        String getValue() {
+            return values.get(0);
+        }
+
+        List<String> getValues() {
+            return values;
+        }
+
+        void addSubLexem(String value) {
+            values.add(value);
+        }
+
+        void addSubLexem(Lexem lexem) {
+            for (String s : lexem.values) {
+                addSubLexem(s);
+            }
+        }
+
     }
 }

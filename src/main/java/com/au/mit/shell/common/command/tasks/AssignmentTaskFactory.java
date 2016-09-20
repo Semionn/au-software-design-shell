@@ -23,14 +23,7 @@ public class AssignmentTaskFactory implements TaskFactory {
     @Override
     public Task tryCreate(String taskStr, List<Argument> args) {
         if (taskStr.contains("=")) {
-            String[] splitted = taskStr.split("=");
-            String varName = splitted[0];
-            String value = "";
-            if (splitted.length > 1) {
-                value = splitted[1];
-            }
-            Argument[] arguments = { new Argument(varName, value) };
-            return new Task(commandRunner, new Assignment(environment), Arrays.asList(arguments));
+            return new Task(commandRunner, new Assignment(environment), args);
         }
         return null;
     }

@@ -4,10 +4,15 @@ import com.au.mit.shell.common.command.Argument;
 import com.au.mit.shell.common.command.Command;
 import com.au.mit.shell.common.exceptions.CommandException;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 
 /**
  * Created by semionn on 10.09.16.
@@ -34,13 +39,14 @@ public class Manual extends Command {
 
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
-        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+        BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
         try {
             if (args.size() > 0) {
-                dataOutputStream.writeChars(commandManual.getOrDefault(args.get(0).getValue(), "Command not found"));
+                String text = commandManual.getOrDefault(args.get(0).getValue(), "Command not found");
+                dataOutputStream.write(text.getBytes(defaultCharset()));
                 dataOutputStream.flush();
             } else {
-                dataOutputStream.writeChars("Not enough arguments");
+                dataOutputStream.write("Not enough arguments".getBytes(defaultCharset()));
             }
         } catch (IOException e) {
             throw new CommandException(e.getMessage(), e);

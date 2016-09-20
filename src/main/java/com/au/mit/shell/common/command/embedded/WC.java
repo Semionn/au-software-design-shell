@@ -7,6 +7,8 @@ import com.au.mit.shell.common.exceptions.CommandException;
 import java.io.*;
 import java.util.List;
 
+import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
+
 /**
  * Created by semionn on 10.09.16.
  */
@@ -18,7 +20,7 @@ public class WC extends Command {
 
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
-        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+        BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
         try {
             BufferedReader br;
             if (args.size() > 0) {
@@ -26,7 +28,7 @@ public class WC extends Command {
             } else if (inputStream != null) {
                 br = new BufferedReader(new InputStreamReader(inputStream));
             } else {
-                dataOutputStream.writeChars("Not enough arguments");
+                dataOutputStream.write("Not enough arguments".getBytes(defaultCharset()));
                 return;
             }
             int lineCount = 0;
@@ -42,7 +44,8 @@ public class WC extends Command {
             } finally {
                 br.close();
             }
-            dataOutputStream.writeChars(String.format("%d %d %d", lineCount, wordCount, charCount));
+            String result = String.format("%d %d %d", lineCount, wordCount, charCount);
+            dataOutputStream.write(result.getBytes(defaultCharset()));
         } catch (IOException e) {
             throw new CommandException(e.getMessage(), e);
         } finally {

@@ -8,6 +8,8 @@ import com.au.mit.shell.common.exceptions.CommandException;
 import java.io.*;
 import java.util.List;
 
+import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
+
 /**
  * Created by semionn on 10.09.16.
  */
@@ -25,8 +27,8 @@ public class Cat extends Command {
             } else if (inputStream != null) {
                 is = inputStream;
             } else {
-                DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-                dataOutputStream.writeChars("Not enough arguments");
+                BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
+                dataOutputStream.write("Not enough arguments".getBytes(defaultCharset()));
                 dataOutputStream.flush();
                 dataOutputStream.close();
                 return;
