@@ -4,6 +4,7 @@ import com.au.mit.shell.common.command.CommandResult;
 import com.au.mit.shell.common.command.tasks.Task;
 import com.au.mit.shell.common.command.tasks.AutoTaskFactory;
 import com.au.mit.shell.common.command.runner.CommandRunner;
+import com.au.mit.shell.common.command.tasks.TaskFactory;
 import com.au.mit.shell.common.scripts.ShellScript;
 import com.au.mit.shell.common.command.tasks.TaskDescription;
 
@@ -18,12 +19,12 @@ import java.io.PipedInputStream;
 public class ShellScriptSimpleRunner implements ShellScriptRunner {
 
     @Override
-    public void run(ShellScript script, AutoTaskFactory autoTaskFactory, CommandRunner commandRunner) {
+    public void run(ShellScript script, TaskFactory taskFactory, CommandRunner commandRunner) {
         try {
             commandRunner.start();
             CommandResult lastResult = null;
             for (TaskDescription taskDescription : script.getPipedTasks()) {
-                Task task = autoTaskFactory.tryCreate(taskDescription.getCommandName(), taskDescription.getArgs());
+                Task task = taskFactory.tryCreate(taskDescription.getCommandName(), taskDescription.getArgs());
                 lastResult = task.run(lastResult);
             }
             if (lastResult != null) {
