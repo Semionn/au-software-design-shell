@@ -15,11 +15,7 @@ import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 /**
  * Created by semionn on 11.09.16.
  */
-public class Pwd extends Command {
-    public Pwd() {
-        name = "pwd";
-    }
-
+public class Pwd implements Command {
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
@@ -35,5 +31,10 @@ public class Pwd extends Command {
                 throw new CommandException(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public String getName() {
+        return "pwd";
     }
 }

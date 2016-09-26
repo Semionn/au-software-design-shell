@@ -4,8 +4,8 @@ package com.au.mit.shell.common.command;
  * Created by semionn on 10.09.16.
  */
 public class Argument {
-    private String name;
-    private String value;
+    private final String name;
+    private final String value;
 
     public Argument(String name, String value) {
         this.name = name;

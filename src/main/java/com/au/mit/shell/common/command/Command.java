@@ -7,15 +7,8 @@ import java.util.List;
 /**
  * Created by semionn on 10.09.16.
  */
-public abstract class Command {
-    protected String name;
+public interface Command {
+    void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args);
 
-    public Command() {
-    }
-
-    public abstract void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args);
-
-    public String getName() {
-        return name;
-    }
+    String getName();
 }

@@ -17,11 +17,10 @@ import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 /**
  * Created by semionn on 10.09.16.
  */
-public class Manual extends Command {
-    private Map<String, String> commandManual;
+public class Manual implements Command {
+    private final Map<String, String> commandManual;
 
     public Manual() {
-        name = "man";
         commandManual = new HashMap<>();
         commandManual.put("cat", "cat - prints file to standard output\n" +
                 "cat [FILE]");
@@ -57,5 +56,10 @@ public class Manual extends Command {
                 throw new CommandException(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public String getName() {
+        return "man";
     }
 }

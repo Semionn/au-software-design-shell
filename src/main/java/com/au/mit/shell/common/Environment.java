@@ -14,9 +14,6 @@ import java.util.Map;
 public class Environment {
     private Map<String, String> variables = new HashMap<>();
 
-    public Environment() {
-    }
-
     public void addVariable(String name, String value) {
         variables.put(name, value);
     }

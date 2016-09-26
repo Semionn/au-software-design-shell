@@ -12,11 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Created by semionn on 11.09.16.
  */
-public class ExternalProcessCmd extends Command {
-    public ExternalProcessCmd() {
-        name = "externalProcess";
-    }
-
+public class ExternalProcessCmd implements Command {
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         ProcessBuilder pb = new ProcessBuilder(args.stream().map(Argument::getValue).collect(Collectors.toList()));
@@ -35,5 +31,10 @@ public class ExternalProcessCmd extends Command {
                 e1.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public String getName() {
+        return "externalProcess";
     }
 }

@@ -138,8 +138,8 @@ public class ShellParser {
     }
 
     private static class Lexem {
-        List<String> values;
-        boolean isString;
+        private List<String> values;
+        private boolean isString;
 
         Lexem(String value, boolean isString) {
             this.values = new ArrayList<>();

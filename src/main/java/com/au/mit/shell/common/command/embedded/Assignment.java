@@ -17,10 +17,10 @@ import static com.au.mit.shell.common.command.PipelineUtils.getEndLine;
 /**
  * Created by semionn on 11.09.16.
  */
-public class Assignment extends Command {
-    private Environment environment;
+public class Assignment implements Command {
+    private final Environment environment;
+
     public Assignment(Environment environment) {
-        name = "assignment";
         this.environment = environment;
     }
 
@@ -45,5 +45,10 @@ public class Assignment extends Command {
                 throw new CommandException(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public String getName() {
+        return "assignment";
     }
 }

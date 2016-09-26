@@ -13,11 +13,7 @@ import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 /**
  * Created by semionn on 10.09.16.
  */
-public class Cat extends Command {
-    public Cat() {
-        name = "cat";
-    }
-
+public class Cat implements Command {
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         try {
@@ -37,5 +33,10 @@ public class Cat extends Command {
         } catch (IOException e) {
             throw new CommandException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "cat";
     }
 }

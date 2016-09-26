@@ -11,11 +11,7 @@ import java.util.List;
 /**
  * Created by semionn on 11.09.16.
  */
-public class Echo extends Command {
-    public Echo() {
-        name = "echo";
-    }
-
+public class Echo implements Command {
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         try {
@@ -32,5 +28,10 @@ public class Echo extends Command {
         } catch (IOException e) {
             throw new CommandException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "echo";
     }
 }

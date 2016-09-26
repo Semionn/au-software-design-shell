@@ -12,12 +12,7 @@ import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 /**
  * Created by semionn on 10.09.16.
  */
-public class WC extends Command {
-
-    public WC() {
-        name = "wc";
-    }
-
+public class WC implements Command {
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
@@ -56,5 +51,10 @@ public class WC extends Command {
                 throw new CommandException(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public String getName() {
+        return "wc";
     }
 }
