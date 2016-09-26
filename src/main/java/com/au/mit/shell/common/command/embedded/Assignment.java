@@ -28,7 +28,7 @@ public class Assignment extends Command {
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
         try {
-            if (args.size() < 1) {
+            if (args.size() < 2) {
                 dataOutputStream.write("Not enough arguments".getBytes(defaultCharset()));
                 dataOutputStream.flush();
                 return;

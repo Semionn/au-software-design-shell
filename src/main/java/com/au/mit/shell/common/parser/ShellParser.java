@@ -122,6 +122,9 @@ public class ShellParser {
     private Lexem extractAssignment(String str) {
         Lexem lexem = new Lexem();
         String[] tokens = str.split("=");
+        if (tokens.length == 0) {
+            return new Lexem(str, true);
+        }
         if (tokens[0].length() < str.length()) {
             lexem.addSubLexem("=");
             lexem.addSubLexem(tokens[0]);
