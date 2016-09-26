@@ -1,5 +1,4 @@
-# au-software-design-shell
-Simple Shell
+## Simple Shell
 Общая диаграмма:
 ![Class diagram](https://github.com/Semionn/au-software-design-shell/raw/task1/images/diagram.png)
 
