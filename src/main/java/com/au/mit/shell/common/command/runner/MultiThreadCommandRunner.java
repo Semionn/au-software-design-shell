@@ -13,26 +13,40 @@ import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 /**
- * Created by semionn on 10.09.16.
+ * MultiThread runner, which implements CommandRunner interface <p>
+ * Allows start multiple commands in different threads, and connect piped commands
+ * with PipedInputStream and PipedOutputStream
  */
 public class MultiThreadCommandRunner implements CommandRunner {
 
     private ExecutorService executorService;
     private Supplier<ExecutorService> executorServiceGenerator;
 
+    /**
+     * Class constructor with ExecutorService specified
+     */
     public MultiThreadCommandRunner(Supplier<ExecutorService> executorServiceGenerator) {
         this.executorServiceGenerator = executorServiceGenerator;
     }
 
+    /**
+     * Class constructor with specified number of threads in thread pool
+     */
     public MultiThreadCommandRunner(int threadCount) {
         this(() -> Executors.newFixedThreadPool(threadCount));
     }
 
+    /**
+     * Method for starting runner, should be called before command execution
+     */
     @Override
     public void start() {
         executorService = executorServiceGenerator.get();
     }
 
+    /**
+     * Method for starting command in thread from thread pool
+     */
     @Override
     public CommandResult run(Command command, PipedInputStream inputStream, List<Argument> args) {
         PipedOutputStream outputStream = new PipedOutputStream();
@@ -57,7 +71,9 @@ public class MultiThreadCommandRunner implements CommandRunner {
         });
         return result;
     }
-
+    /**
+     * Method for stopping all yet running commands
+     */
     @Override
     public void stop() {
         executorService.shutdown();

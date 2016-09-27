@@ -15,11 +15,14 @@ import java.util.Map;
 import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 
 /**
- * Created by semionn on 10.09.16.
+ * Shell command for printing out manual for specified command
  */
 public class Manual implements Command {
     private final Map<String, String> commandManual;
 
+    /**
+     * Class constructor
+     */
     public Manual() {
         commandManual = new HashMap<>();
         commandManual.put("cat", "cat - prints file to standard output\n" +
@@ -36,6 +39,10 @@ public class Manual implements Command {
                 "exit");
     }
 
+    /**
+     * Overridden Command method to print manual with input as PipedInputStream and list of arguments,
+     * and output as PipedOutputStream
+     */
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
@@ -58,6 +65,9 @@ public class Manual implements Command {
         }
     }
 
+    /**
+     * Returns name of command
+     */
     @Override
     public String getName() {
         return "man";

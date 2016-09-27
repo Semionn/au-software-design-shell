@@ -9,19 +9,26 @@ import java.io.PipedInputStream;
 import java.util.List;
 
 /**
- * Created by semionn on 10.09.16.
+ * Set of command and it's arguments <p>
+ * Allows run the command
  */
 public class Task {
     private CommandRunner commandRunner;
     private Command command;
     private List<Argument> args;
 
+    /**
+     * Class constructor with command runner, command and list of it's arguments specified
+     */
     public Task(CommandRunner commandRunner, Command command, List<Argument> args) {
         this.commandRunner = commandRunner;
         this.command = command;
         this.args = args;
     }
 
+    /**
+     * Run stored command, with piped input from CommandResult
+     */
     public CommandResult run(CommandResult previosResult) {
         PipedInputStream stream = null;
         if (previosResult != null) {

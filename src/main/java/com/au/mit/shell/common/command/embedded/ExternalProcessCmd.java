@@ -10,9 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by semionn on 11.09.16.
+ * Shell command for calling external process
  */
 public class ExternalProcessCmd implements Command {
+    /**
+     * Overridden Command method to call external process with input as PipedInputStream and list of arguments,
+     * and output as PipedOutputStream
+     */
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         ProcessBuilder pb = new ProcessBuilder(args.stream().map(Argument::getValue).collect(Collectors.toList()));
@@ -33,6 +37,9 @@ public class ExternalProcessCmd implements Command {
         }
     }
 
+    /**
+     * Returns name of command
+     */
     @Override
     public String getName() {
         return "externalProcess";

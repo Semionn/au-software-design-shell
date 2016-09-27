@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by semionn on 10.09.16.
+ * Parser of the Shell
  */
 public class ShellParser {
-    public ShellParser() {
-    }
 
+    /**
+     * Returns ShellScript - parsed commands with their arguments from provided string
+     */
     public ShellScript parse(String string) {
         List<Lexem> lexems = getLexems(string);
 

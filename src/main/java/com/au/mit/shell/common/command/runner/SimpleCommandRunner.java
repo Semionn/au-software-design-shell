@@ -10,15 +10,22 @@ import java.io.PipedOutputStream;
 import java.util.List;
 
 /**
- * Created by semionn on 10.09.16.
+ * Simple runner, which implements CommandRunner interface <p>
+ * All commands running in calling thread
  */
 public class SimpleCommandRunner implements CommandRunner {
 
+    /**
+     * Method for starting runner, should be called before command execution
+     */
     @Override
     public void start() {
 
     }
 
+    /**
+     * Method for starting command
+     */
     @Override
     public CommandResult run(Command command, PipedInputStream inputStream, List<Argument> args) {
         PipedOutputStream outputStream = new PipedOutputStream();
@@ -33,6 +40,9 @@ public class SimpleCommandRunner implements CommandRunner {
         return result;
     }
 
+    /**
+     * Method for stopping all yet running commands
+     */
     @Override
     public void stop() {
 

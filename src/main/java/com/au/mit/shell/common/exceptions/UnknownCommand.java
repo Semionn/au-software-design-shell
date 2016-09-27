@@ -1,7 +1,7 @@
 package com.au.mit.shell.common.exceptions;
 
 /**
- * Created by semionn on 10.09.16.
+ * Exception class for case, when parsed command not recognized by the Shell
  */
 public class UnknownCommand extends RuntimeException {
     public UnknownCommand(String message, Throwable cause) {

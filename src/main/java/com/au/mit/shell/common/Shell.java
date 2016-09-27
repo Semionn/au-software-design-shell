@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by semionn on 10.09.16.
+ * Main class of the Shell <p>
+ * Allows execute multiple commands in console style
  */
 public class Shell {
     private ShellParser parser;
@@ -24,6 +25,10 @@ public class Shell {
     private CommandRunner commandRunner;
     private Environment environment;
 
+    /**
+     * Class constructor <p>
+     * Requires ShellParser, ShellScriptRunner, CommandRunner and array of allowed embedded commands
+     */
     public Shell(ShellParser parser, ShellScriptRunner scriptRunner, CommandRunner commandRunner,
                  Command[] commands) {
         this.parser = parser;
@@ -37,6 +42,10 @@ public class Shell {
         autoTaskFactory = new AutoTaskFactory(factories);
     }
 
+    /**
+     * Start the shell <p>
+     * Executes printed commands until the line "exit" will not be printed
+     */
     public void start() {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

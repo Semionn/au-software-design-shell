@@ -1,7 +1,7 @@
 package com.au.mit.shell.common.exceptions;
 
 /**
- * Created by semionn on 10.09.16.
+ * Exception class wrapper for exceptions have occurred during a command execution
  */
 public class CommandException extends RuntimeException {
     public CommandException(String message, Throwable cause) {

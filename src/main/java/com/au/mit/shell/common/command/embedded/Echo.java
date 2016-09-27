@@ -9,9 +9,13 @@ import java.io.*;
 import java.util.List;
 
 /**
- * Created by semionn on 11.09.16.
+ * Shell command for printing out specified argument or piped input
  */
 public class Echo implements Command {
+    /**
+     * Overridden Command method to process Echo with input as PipedInputStream and list of arguments,
+     * and output as PipedOutputStream
+     */
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         try {
@@ -30,6 +34,9 @@ public class Echo implements Command {
         }
     }
 
+    /**
+     * Returns name of command
+     */
     @Override
     public String getName() {
         return "echo";

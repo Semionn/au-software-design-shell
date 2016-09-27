@@ -14,10 +14,14 @@ import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 
 /**
- * Created by semionn on 10.09.16.
+ * Straightforward implementation of ShellScriptRunner interface: starts tasks consequently, one by one
  */
 public class ShellScriptSimpleRunner implements ShellScriptRunner {
 
+    /**
+     * Run ShellScript with provided TaskFactory and CommandRunner <p>
+     * All occurred exceptions during execution will be caught and printed to standard output
+     */
     @Override
     public void run(ShellScript script, TaskFactory taskFactory, CommandRunner commandRunner) {
         try {

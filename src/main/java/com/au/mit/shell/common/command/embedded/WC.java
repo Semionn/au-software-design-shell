@@ -10,9 +10,13 @@ import java.util.List;
 import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 
 /**
- * Created by semionn on 10.09.16.
+ * Shell command for printing out chars, words and lines count for specified file or piped input
  */
 public class WC implements Command {
+    /**
+     * Overridden Command method to print out char, word and lines count with input as PipedInputStream
+     * and list of arguments, and output as PipedOutputStream
+     */
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
@@ -53,6 +57,9 @@ public class WC implements Command {
         }
     }
 
+    /**
+     * Returns name of command
+     */
     @Override
     public String getName() {
         return "wc";

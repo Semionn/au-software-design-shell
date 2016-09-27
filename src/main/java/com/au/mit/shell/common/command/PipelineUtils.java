@@ -3,11 +3,15 @@ package com.au.mit.shell.common.command;
 import java.io.*;
 
 /**
- * Created by semionn on 11.09.16.
+ * Class utils for communication between commands and common functions connected with string formats
  */
 public class PipelineUtils {
     private PipelineUtils() {}
 
+    /**
+     * Write output from provided InputStream to OutputStream <p>
+     * Output should be compatible with UTF-8
+     */
     public static void ConnectStreams(InputStream inputStream, OutputStream outputStream) throws IOException {
         final int BUFFER_SIZE = 1024;
         final String CHARSET = "UTF-8";
@@ -24,10 +28,16 @@ public class PipelineUtils {
         }
     }
 
+    /**
+     * Returns endline characters for current OS
+     */
     public static String getEndLine() {
         return System.getProperty("line.separator");
     }
 
+    /**
+     * Returns default charset for the Shell
+     */
     public static String defaultCharset() {
         return "UTF-8";
     }

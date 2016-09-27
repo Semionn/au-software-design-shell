@@ -15,15 +15,22 @@ import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 import static com.au.mit.shell.common.command.PipelineUtils.getEndLine;
 
 /**
- * Created by semionn on 11.09.16.
+ * Shell command for assign text value to environment variable
  */
 public class Assignment implements Command {
     private final Environment environment;
 
+    /**
+     * Constructor, environment argument required
+     */
     public Assignment(Environment environment) {
         this.environment = environment;
     }
 
+    /**
+     * Overridden Command method to process Assignment with input as PipedInputStream and list of arguments,
+     * and output as PipedOutputStream
+     */
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         BufferedOutputStream dataOutputStream = new BufferedOutputStream(outputStream);
@@ -47,6 +54,9 @@ public class Assignment implements Command {
         }
     }
 
+    /**
+     * Returns name of command
+     */
     @Override
     public String getName() {
         return "assignment";

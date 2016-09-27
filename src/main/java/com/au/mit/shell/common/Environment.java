@@ -9,15 +9,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by semionn on 11.09.16.
+ * Allows store and substitute in scripts environment variables of the Shell
  */
 public class Environment {
     private Map<String, String> variables = new HashMap<>();
 
+    /**
+     * Add variable to environment with provided name and value
+     */
     public void addVariable(String name, String value) {
         variables.put(name, value);
     }
 
+    /**
+     * Replace all occurrences of variables in script with format "...$X...", where X is variable name
+     */
     public void replaceVariables(ShellScript shellScript) {
         List<TaskDescription> pipedTasks = shellScript.getPipedTasks();
         for (TaskDescription taskDescr : pipedTasks) {

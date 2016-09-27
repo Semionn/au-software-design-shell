@@ -8,10 +8,22 @@ import java.io.PipedInputStream;
 import java.util.List;
 
 /**
- * Created by semionn on 10.09.16.
+ * Interface for command executing
  */
 public interface CommandRunner {
+
+    /**
+     * Method for starting command
+     */
     CommandResult run(Command command, PipedInputStream inputStream, List<Argument> args);
+
+    /**
+     * Method for stopping all yet running commands
+     */
     void stop();
+
+    /**
+     * Method for starting runner, should be called before command execution
+     */
     void start();
 }

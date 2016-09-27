@@ -11,9 +11,13 @@ import java.util.List;
 import static com.au.mit.shell.common.command.PipelineUtils.defaultCharset;
 
 /**
- * Created by semionn on 10.09.16.
+ * Shell command for printing out specified file content or piped input
  */
 public class Cat implements Command {
+    /**
+     * Overridden Command method to process Assignment with input as PipedInputStream and list of arguments,
+     * and output as PipedOutputStream
+     */
     @Override
     public void run(PipedInputStream inputStream, PipedOutputStream outputStream, List<Argument> args) {
         try {
@@ -35,6 +39,9 @@ public class Cat implements Command {
         }
     }
 
+    /**
+     * Returns name of command
+     */
     @Override
     public String getName() {
         return "cat";

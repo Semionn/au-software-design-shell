@@ -10,12 +10,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by semionn on 11.09.16.
+ * Factory, which provides tasks with command from provided list of commands
  */
 public class EmbeddedTaskFactory implements TaskFactory {
     private CommandRunner commandRunner;
     private Map<String, Command> commandMap;
 
+    /**
+     * Class constructor with specified command runner and list of allowed commands
+     */
     public EmbeddedTaskFactory(CommandRunner commandRunner, Command[] commands) {
         Map<String, Command> commandMap = new HashMap<>();
         for (Command cmd : commands) {
@@ -25,6 +28,9 @@ public class EmbeddedTaskFactory implements TaskFactory {
         this.commandRunner = commandRunner;
     }
 
+    /**
+     * Tries to create Task from arguments, returns Task if successful, null otherwise
+     */
     @Override
     public Task tryCreate(String taskStr, List<Argument> args) {
         String commandName = taskStr;
@@ -34,7 +40,6 @@ public class EmbeddedTaskFactory implements TaskFactory {
         }
         return new Task(commandRunner, command, args);
     }
-
 
     private Command findCommand(String name) {
         return commandMap.getOrDefault(name, null);

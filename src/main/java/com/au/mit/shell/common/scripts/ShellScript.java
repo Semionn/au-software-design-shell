@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by semionn on 10.09.16.
+ * Stores description of piped commands with their arguments
  */
 public class ShellScript {
     private List<TaskDescription> pipedTasks = new ArrayList<>();
 
-    public ShellScript() {}
-
+    /**
+     * Add TaskDescription to the script
+     */
     public void addTask(TaskDescription task) {
         if (pipedTasks == null) {
             pipedTasks = new ArrayList<>();
@@ -20,10 +21,16 @@ public class ShellScript {
         pipedTasks.add(task);
     }
 
+    /**
+     * Returns list of piped TaskDescriptions
+     */
     public List<TaskDescription> getPipedTasks() {
         return pipedTasks;
     }
 
+    /**
+     * Set up list of piped TaskDescriptions
+     */
     public void setPipedTasks(List<TaskDescription> pipedTasks) {
         this.pipedTasks = pipedTasks;
     }
