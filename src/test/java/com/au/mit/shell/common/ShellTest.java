@@ -1,10 +1,7 @@
 package com.au.mit.shell.common;
 
 import com.au.mit.shell.common.command.Command;
-import com.au.mit.shell.common.command.embedded.Cat;
-import com.au.mit.shell.common.command.embedded.Echo;
-import com.au.mit.shell.common.command.embedded.Pwd;
-import com.au.mit.shell.common.command.embedded.WC;
+import com.au.mit.shell.common.command.embedded.*;
 import com.au.mit.shell.common.command.runner.SimpleCommandRunner;
 import com.au.mit.shell.common.parser.ShellParser;
 import com.au.mit.shell.common.scripts.runner.ShellScriptSimpleRunner;
@@ -96,6 +93,31 @@ public class ShellTest {
         final String input = "pwd" + getEndLine() +
                 "echo '" + testString2 + "'" + getEndLine() + "exit";
         testCommand(shell, testString1, testString2, input);
+    }
+
+    @Test
+    public void simpleRunnerGrepTest() throws Exception {
+        final Command[] commands = {new Grep(), new Echo()};
+        final Shell shell = new Shell(new ShellParser(), new ShellScriptSimpleRunner(),
+                new SimpleCommandRunner(), commands);
+
+        final String testString1 = "'Some testing text.'";
+        final String testString1Out = "Some testing text.";
+        final String testPattern1 = "test";
+        final String testString2 = "'Some testing text.'";
+        final String input = "echo " + testString1 + " | grep " + testPattern1 + getEndLine() +
+                "echo " + testString2 + " | grep -w " + testPattern1 + getEndLine() + "exit";
+        testCommand(shell, testString1Out, "", input);
+
+        final String testPattern2 = "testing";
+        final String input2 = "echo " + testString1 + " | grep " + testPattern1 + getEndLine() +
+                "echo " + testString2 + " | grep -w " + testPattern2 + getEndLine() + "exit";
+        testCommand(shell, testString1Out, testString1Out, input2);
+
+        final String testPattern3 = "tEsT";
+        final String input3 = "echo " + testString1 + " | grep -i " + testPattern3 + getEndLine() +
+                "echo " + testString2 + " | grep " + testPattern3 + getEndLine() + "exit";
+        testCommand(shell, testString1Out, "", input3);
     }
 
     private void testCommand(Shell shell, String testString1, String testString2, String input) throws IOException {
