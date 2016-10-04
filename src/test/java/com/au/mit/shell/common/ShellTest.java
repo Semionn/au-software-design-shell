@@ -5,7 +5,9 @@ import com.au.mit.shell.common.command.embedded.*;
 import com.au.mit.shell.common.command.runner.SimpleCommandRunner;
 import com.au.mit.shell.common.parser.ShellParser;
 import com.au.mit.shell.common.scripts.runner.ShellScriptSimpleRunner;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
 
@@ -15,6 +17,9 @@ import static org.junit.Assert.assertEquals;
  * Created by semionn on 15.09.16.
  */
 public class ShellTest {
+
+    @Rule
+    public final TemporaryFolder folder = new TemporaryFolder();
 
     @Test
     public void simpleRunnerEchoTest() throws Exception {
@@ -118,6 +123,23 @@ public class ShellTest {
         final String input3 = "echo " + testString1 + " | grep -i " + testPattern3 + getEndLine() +
                 "echo " + testString2 + " | grep " + testPattern3 + getEndLine() + "exit";
         testCommand(shell, testString1Out, "", input3);
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Test
+    public void simpleRunnerCdLsTest() throws Exception {
+        final File dir = folder.newFolder("cdls");
+        final File file1 = new File(dir, "1");
+        file1.createNewFile();
+        final File file2 = new File(dir, "2");
+        file2.createNewFile();
+        final Command[] commands = {new Cd(), new Ls()};
+        final Shell shell = new Shell(new ShellParser(), new ShellScriptSimpleRunner(),
+                new SimpleCommandRunner(), commands);
+
+        final String input = "cd " + dir.getAbsolutePath() + " | ls" + getEndLine() + "exit";
+        final String output = "1" + getEndLine() + "2";
+        testCommand(shell, output, "", input);
     }
 
     private void testCommand(Shell shell, String testString1, String testString2, String input) throws IOException {
