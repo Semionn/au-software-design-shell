@@ -55,7 +55,7 @@ public class Assignment implements Command {
     }
 
     /**
-     * Returns name of command
+     * Returns name of the command
      */
     @Override
     public String getName() {

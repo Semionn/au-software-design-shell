@@ -5,7 +5,9 @@ import com.au.mit.shell.common.command.Command;
 import com.au.mit.shell.common.command.PipelineUtils;
 import com.au.mit.shell.common.exceptions.CommandException;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +40,7 @@ public class ExternalProcessCmd implements Command {
     }
 
     /**
-     * Returns name of command
+     * Returns name of the command
      */
     @Override
     public String getName() {
