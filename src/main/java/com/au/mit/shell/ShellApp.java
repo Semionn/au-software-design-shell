@@ -17,7 +17,7 @@ public class ShellApp {
      * Allows unlimited streams of data in pipes (3 threads per script)
      */
     public static void main(String[] args) {
-        Command[] commands = { new Cat(), new WC(), new Manual(), new Pwd(), new Echo() };
+        Command[] commands = { new Cat(), new WC(), new Manual(), new Pwd(), new Echo(), new Grep() };
         new Shell(new ShellParser(), new ShellScriptSimpleRunner(),
                   new MultiThreadCommandRunner(3), commands).start();
     }
